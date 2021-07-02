@@ -29,15 +29,18 @@ const main = async () => {
     }
   }
 
+  let count = 0;
   let output = [];
   Object.keys(depositAmount).forEach((key) => {
     if (depositAmount[key].isGreaterThan(0)) {
       output.push({
         address: key,
-        amount: depositAmount[key].toString(),
+        amount: parseInt(depositAmount[key].multipliedBy(0.995).toFixed(0)) / 1e18,
       });
+      count = new BigNumber(count).plus(parseInt(depositAmount[key].multipliedBy(0.995).toFixed(0)) / 1e18)
     }
   });
+  console.log(count.toString());
   // //multisender csv
   jsonexport(output, { includeHeaders: false }, function (err, csv) {
     if (err) return console.error(err);
